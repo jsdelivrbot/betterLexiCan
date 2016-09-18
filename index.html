@@ -4,7 +4,12 @@
 	<title>廣東話拼音查詢系統
 	</title>
 	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+	<meta charset="UTF-8">
 	<style>
+		input[type="search"] {
+			-webkit-appearance: textfield;
+		}
+		
 		a {
 			color: inherit;
 			text-decoration: none;
@@ -27,21 +32,23 @@
 			overflow: hidden;
 		}
 		
+		form {
+			display: inline-block;
+		}
+		
 		#head {
-			height: 20vw;
-			max-height: 100px;
-			min-height: 80px;
+			height: auto;
 			width: 100%;
 			color: white;
 			text-align: center;
 			/* Permalink - use to edit and share this gradient: http://colorzilla.com/gradient-editor/#fa5858+0,f97575+50,fa5858+100 */
 			background: #fa5858;
 			/* Old browsers */
-			background: -moz-linear-gradient(left, #fa5858 0%, #f97575 50%, #fa5858 100%);
+			background: -moz-linear-gradient(left, #fa5858 0%, #f97F7F 50%, #fa5858 100%);
 			/* FF3.6-15 */
-			background: -webkit-linear-gradient(left, #fa5858 0%, #f97575 50%, #fa5858 100%);
+			background: -webkit-linear-gradient(left, #fa5858 0%, #f97F7F 50%, #fa5858 100%);
 			/* Chrome10-25,Safari5.1-6 */
-			background: linear-gradient(to right, #fa5858 0%, #f97575 50%, #fa5858 100%);
+			background: linear-gradient(to right, #fa5858 0%, #f97F7F 50%, #fa5858 100%);
 			/* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
 			filter: progid: DXImageTransform.Microsoft.gradient( startColorstr='#fa5858', endColorstr='#fa5858', GradientType=1);
 			/* IE6-9 */
@@ -49,6 +56,81 @@
 			line-height: 45px;
 			z-index: 999;
 		}
+		
+		#info {
+			display: inline-block;
+			width: 100vw;
+			max-width: 500px;
+			font-size: 12px;
+			text-align: center;
+			height: auto;
+			vertical-align: bottom;
+		}
+		
+		#info ul {
+			list-style: none;
+			padding: 0;
+			margin: 0;
+		}
+		
+		#info ul li {
+			float: left;
+			margin-bottom: 0px;
+			margin-top: 0px;
+			padding-top: 0px;
+			padding-bottom: 0px;
+			padding-left: 15px;
+			line-height: 24px;
+		}
+		
+		#infoRadicals:before {
+			content: "部首:";
+		}
+		
+		#infoStrokes:before {
+			content: "筆劃:";
+		}
+		
+		#infoChangjie:before {
+			content: "倉頡碼:";
+		}
+		
+		#infoBig5:before {
+			content: "Big5:";
+		}
+		
+		#infoPronunciationType:before {
+			content: "字音分類:";
+		}
+		
+		#infoUnicode:before {
+			content: "Unicode:";
+		}
+		
+		#infoFrequency:before {
+			content: "頻序/頻次:";
+		}
+		
+		#infoDictionary1:before {
+			content: "漢語大字典:";
+		}
+		
+		#infoDictionary2:before {
+			content: "康熙字典:";
+		}
+		
+		#infoMandarin:before {
+			content: "普通話:";
+		}
+		
+		#infoEnglish:before {
+			content: "英譯:";
+		}
+		
+		#infoMatthews:before {
+			content: "Matthews:";
+		}
+		
 		
 		#results {
 			overflow-y: scroll;
@@ -67,9 +149,17 @@
 			height: 3vw;
 			min-height: 32px;
 			max-width: 400px;
-			font-size: 7vw;
+			font-size: 25px;
 			text-align: center;
 			color: white;
+		}
+		
+		.resultItem:active{
+			background: #CCC;
+		}
+		
+		.resultItem:hover{
+			background: #EEE;
 		}
 		
 		.resultItem {
@@ -84,7 +174,6 @@
 			word-wrap: break-word;
 			padding-left: 10px;
 			padding-right: 10px;
-			
 		}
 		
 		.resultPronunciation {
@@ -143,7 +232,7 @@
 			float: left;
 			padding-left: 20px;
 			padding-right: 20px;
-			padding-bottom:10px;
+			padding-bottom: 10px;
 		}
 		
 		.resultHomophone table {
@@ -158,13 +247,36 @@
 		.resultHomophone td:first-child {
 			border-left: 1px solid #AAA;
 		}
+		
+		.radicalsImg {
+			filter: invert() grayscale();
+			margin-bottom: -6px;
+		}
 	</style>
 </head>
 
 <body>
-	<div id="head">Cantonese
+	<div id="head">粵語審音配詞字庫
 		<br/>
-		<input type="search" id="searchInput"/>
+		<form action=".">
+			<input type="search" id="searchInput" value="屌" maxlength="1" />
+		</form>
+		<div id="info">
+			<ul>
+				<li id="infoRadicals"><img class="radicalsImg" src="http://humanum.arts.cuhk.edu.hk/Lexis/lexi-can/img/rad/rad44.gif" /></li>
+				<li id="infoStrokes">9</li>
+				<li id="infoChangjie">尸口中月</li>
+				<li id="infoPronunciationType">單讀音字</li>
+				<li id="infoUnicode">U+5C4C</li>
+				<li id="infoBig5">CE78</li>
+				<li id="infoFrequency">5881/4</li>
+				<li id="infoDictionary1">Pg.0972</li>
+				<li id="infoDictionary2">Pg.0229.210</li>
+				<li id="infoMandarin">diao3</li>
+				<li id="infoEnglish">fuck</li>
+				<li id="infoMatthews">0000</li>
+			</ul>
+		</div>
 	</div>
 	<div id="results">
 		<br/>
