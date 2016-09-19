@@ -1,7 +1,7 @@
 <html>
 
 <head>
-	<title>廣東話拼音查詢系統
+	<title>粵語審音配詞字庫
 	</title>
 	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 	<meta charset="UTF-8">
@@ -170,13 +170,15 @@
 			min-height: 45px;
 			height: auto;
 			border-top: 1px #AAA solid;
-			border-bottom: 1px #AAA solid;
 			border-left: 0px;
 			border-right: 0px;
-			margin-bottom: 10px;
 			word-wrap: break-word;
 			padding-left: 10px;
 			padding-right: 10px;
+		}
+		
+		.resultItem:last-child {
+			border-bottom: 1px #AAA solid;
 		}
 		
 		.resultPronunciation {
@@ -259,13 +261,14 @@
 	<script type="text/javascript">
 		function init() {
 			if (window.navigator.standalone == true) {
-				document.getElementById("title").innerHTML = "";
+				document.getElementById("title").innerHTML = "&nbsp;";
+				document.getElementById("title").style.fontSize = "10px";
 			}
 		}
 	</script>
 </head>
 
-<body>
+<body onload="init()">
 	<div id="head">
 		<div id="title">粵語審音配詞字庫</div>
 		<br/>
