@@ -19,8 +19,8 @@
 		
 		html,
 		body {
-			height: 100%;
-			width: 100%;
+			height: 100vh;
+			width: 100vw;
 			overflow: hidden;
 		}
 		
@@ -154,11 +154,12 @@
 			height: 3vw;
 			min-height: 32px;
 			max-width: 400px;
-			font-size: 25px;
+			font-size: 22px;
 			text-align: center;
 			color: white;
 			padding: 0;
 			margin: 0;
+			padding-left: 100px;
 		}
 		
 		.resultItem:active {
@@ -177,7 +178,7 @@
 			padding-right: 10px;
 		}
 		
-		.resultItem:last-child {
+		#result div:last-child {
 			border-bottom: 1px #AAA solid;
 		}
 		
@@ -240,30 +241,96 @@
 			padding-bottom: 10px;
 		}
 		
-		.resultHomophone table {
-			width: calc(100vw - 20px);
-			text-align: center;
-		}
-		
-		.resultHomophone td {
-			border-right: 1px solid #AAA;
-		}
-		
-		.resultHomophone td:first-child {
-			border-left: 1px solid #AAA;
-		}
-		
 		.radicalsImg {
-			filter: invert() grayscale();
+			filter: grayscale(100%) invert(100%);
 			margin-bottom: -6px;
+		}
+		
+		.searchType {
+			display: inline-block;
+			background: #ffbaba;
+			border: 0px;
+			width: 80px;
+			-webkit-appearance: none;
+			-moz-appearance: none;
+			float: left;
+			height: calc(0.4vw + 29px);
+			border: 0;
+			font-size: 20px;
+			text-align: center;
+			color: white;
+			padding-left: 5px;
+			margin: 0;
+		}
+		
+		#selectConsonant {
+			width: 60px !important;
+		}
+		
+		#selectTone {
+			width: 60px !important;
+		}
+		
+		#selectSearchType {
+			width: 100px;
+		}
+		
+		.verticalLine {
+			border-left: 2px solid #faa;
+		}
+		
+		.searchContainerDiv {
+			height: 3vw;
+			min-height: 32px;
+			display: inline-block;
+		}
+		
+		#divSearchType {
+			height: 3vw;
+			min-height: 32px;
+			color: #faa;
+			background: white;
+			display: inline-block;
+			line-height: 36px;
+			padding: 0;
+			margin: 0;
+			width: 100px;
+			border-radius: 100px 0px 0px 100px;
+			vertical-align: middle;
+		}
+		
+		#searchByPronuncation {
+			display: inline-block;
+			padding: 0;
+			margin: 0;
+			display: none;
 		}
 	</style>
 	<script type="text/javascript">
 		function init() {
 			if (window.navigator.standalone == true) {
 				document.getElementById("title").innerHTML = "&nbsp;";
-				document.getElementById("title").style.fontSize = "10px";
+				document.getElementById("title").style.fontSize = "12px";
+				document.getElementById("title").style.lineHeight = "12px";
 			}
+		}
+
+		function searchTypeToggle(e) {
+			var tmp = e.target.innerText;
+			e.target.innerText = e.target.getAttribute("altText");
+			e.target.setAttribute("altText", tmp);
+			var searchByPronuncation = document.querySelector("#searchByPronuncation");
+			var searchInput = document.querySelector("#searchInput");
+			if (JSON.parse(e.target.getAttribute("isSearchByCharacter"))) {
+				searchByPronuncation.style.display = "inline-block";
+				searchInput.setAttribute("store", searchInput.value);
+				searchInput.value = "";
+			} else {
+				searchByPronuncation.style.display = "none";
+				searchInput.value = searchInput.getAttribute("store");
+			}
+			e.target.setAttribute("isSearchByCharacter", String(!JSON.parse(e.target.getAttribute("isSearchByCharacter"))));
+
 		}
 	</script>
 </head>
@@ -273,7 +340,115 @@
 		<div id="title">粵語審音配詞字庫</div>
 		<br/>
 		<form action=".">
-			<input type="search" id="searchInput" value="屌" maxlength="1" />
+			<div style="display:inline-block; position:relative;">
+				<input type="search" id="searchInput" value="屌" maxlength="1" store="" />
+				<div style="display:inline-block;position: absolute; top:0; left:0;">
+					<div altText="拼音搜尋" isSearchByCharacter="true" id="divSearchType" onclick="searchTypeToggle(event)">單字搜尋</div>
+
+					<div id="searchByPronuncation">
+
+						<div class="searchContainerDiv">
+							<select id="selectConsonant" class="searchType">
+								<option value="-">聲母</option>
+								<option value="">(無)</option>
+								<option value="b">b</option>
+								<option value="c">c</option>
+								<option value="d">d</option>
+								<option value="f">f</option>
+								<option value="g">g</option>
+								<option value="gw">gw</option>
+								<option value="h">h</option>
+								<option value="j">j</option>
+								<option value="k">k</option>
+								<option value="kw">kw</option>
+								<option value="l">l</option>
+								<option value="m">m</option>
+								<option value="n">n</option>
+								<option value="ng">ng</option>
+								<option value="p">p</option>
+								<option value="s">s</option>
+								<option value="t">t</option>
+								<option value="w">w</option>
+								<option value="z">z</option>
+							</select>
+						</div>
+						<div class="searchContainerDiv verticalLine">
+							<select id="selectVowel" class="searchType">
+								<option value="-">韻母</option>
+								<option value="">(無)</option>
+								<option value="aa">aa</option>
+								<option value="aai">aai</option>
+								<option value="aau">aau</option>
+								<option value="aam">aam</option>
+								<option value="aan">aan</option>
+								<option value="aang">aang</option>
+								<option value="aap">aap</option>
+								<option value="aat">aat</option>
+								<option value="aak">aak</option>
+								<option value="ai">ai</option>
+								<option value="au">au</option>
+								<option value="am">am</option>
+								<option value="an">an</option>
+								<option value="ang">ang</option>
+								<option value="ap">ap</option>
+								<option value="at">at</option>
+								<option value="ak">ak</option>
+								<option value="e">e</option>
+								<option value="ei">ei</option>
+								<option value="eu">eu</option>
+								<option value="em">em</option>
+								<option value="eng">eng</option>
+								<option value="ep">ep</option>
+								<option value="ek">ek</option>
+								<option value="i">i</option>
+								<option value="iu">iu</option>
+								<option value="im">im</option>
+								<option value="in">in</option>
+								<option value="ing">ing</option>
+								<option value="ip">ip</option>
+								<option value="it">it</option>
+								<option value="ik">ik</option>
+								<option value="o">o</option>
+								<option value="oi">oi</option>
+								<option value="ou">ou</option>
+								<option value="on">on</option>
+								<option value="ong">ong</option>
+								<option value="ot">ot</option>
+								<option value="ok">ok</option>
+								<option value="oe">oe</option>
+								<option value="oeng">oeng</option>
+								<option value="oek">oek</option>
+								<option value="eoi">eoi</option>
+								<option value="eon">eon</option>
+								<option value="eot">eot</option>
+								<option value="u">u</option>
+								<option value="ui">ui</option>
+								<option value="un">un</option>
+								<option value="ung">ung</option>
+								<option value="ut">ut</option>
+								<option value="uk">uk</option>
+								<option value="yu">yu</option>
+								<option value="yun">yun</option>
+								<option value="yut">yut</option>
+								<option value="m">m</option>
+								<option value="ng">ng</option>
+
+							</select>
+						</div>
+						<div class="searchContainerDiv verticalLine">
+							<select id="selectTone" class="searchType">
+								<option value="-">聲調</option>
+								<option value="1">1</option>
+								<option value="2">2</option>
+								<option value="3">3</option>
+								<option value="4">4</option>
+								<option value="5">5</option>
+								<option value="6">6</option>
+							</select>
+						</div>
+					</div>
+				</div>
+			</div>
 		</form>
 		<div id="info">
 			<ul>
