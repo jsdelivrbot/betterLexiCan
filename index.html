@@ -250,7 +250,9 @@
 			display: inline-block;
 			background: #ffbaba;
 			border: 0px;
-			width: 80px;
+			width: 18vw;
+			max-width: 120px;
+			min-width: 60px;
 			-webkit-appearance: none;
 			-moz-appearance: none;
 			float: left;
@@ -264,11 +266,15 @@
 		}
 		
 		#selectConsonant {
-			width: 60px !important;
+			width: 15vw;
+			max-width: 80px;
+			min-width: 60px;
 		}
 		
 		#selectTone {
-			width: 60px !important;
+			width: 15vw;
+			max-width: 70px;
+			min-width: 50px;
 		}
 		
 		#selectSearchType {
@@ -294,9 +300,9 @@
 			line-height: 36px;
 			padding: 0;
 			margin: 0;
-			width: 100px;
+			width: 90px;
 			border-radius: 100px 0px 0px 100px;
-			vertical-align: middle;
+			vertical-align: top;
 		}
 		
 		#searchByPronuncation {
@@ -315,6 +321,18 @@
 			}
 		}
 
+		function ajax(url, callback, method) {
+			method = method || 'GET';
+			var xhttp = new XMLHttpRequest();
+			xhttp.onreadystatechange = function () {
+				callback(xhttp);
+			};
+			xhttp.open(method, url, true);
+			xhttp.send();
+		}
+
+		function requestCallback() {}
+
 		function searchTypeToggle(e) {
 			var tmp = e.target.innerText;
 			e.target.innerText = e.target.getAttribute("altText");
@@ -332,6 +350,25 @@
 			e.target.setAttribute("isSearchByCharacter", String(!JSON.parse(e.target.getAttribute("isSearchByCharacter"))));
 
 		}
+
+		function sendRequest() {
+			var divSearchType = document.getElementById("divSearchType");
+			var searchInput = document.getElementById("searchInput");
+			var selectConsonant = document.getElementById("selectConsonant");
+			var selectVowel = document.getElementById("selectVowel");
+			var selectTone = document.getElementById("selectTone");
+			if (!JSON.parse(divSearchType.getAttribute("isSearchByCharacter"))) {
+				//拼音
+				if (selectConsonant.options[selectConsonant.selectedIndex].value != "" && selectVowel.options[selectVowel.selectedIndex].value != "" && selectTone.options[selectTone.selectedIndex].value != "") {
+					ajax("http://humanum.arts.cuhk.edu.hk/Lexis/lexi-can/pho-rel.php?s1=" + selectConsonant.options[selectConsonant.selectedIndex].value + "&s2=" + selectVowel.options[selectVowel.selectedIndex].value + "&s3=" + selectTone.options[selectTone.selectedIndex].value, requestCallback);
+				}
+			} else {
+				//單字
+				if (searchInput.value.length > 0) {
+					ajax("http://humanum.arts.cuhk.edu.hk/Lexis/lexi-can/search.php?q=" + encodeURIComponent(searchInput.value), requestCallback);
+				}
+			}
+		}
 	</script>
 </head>
 
@@ -339,7 +376,7 @@
 	<div id="head">
 		<div id="title">粵語審音配詞字庫</div>
 		<br/>
-		<form action=".">
+		<form action="#" onsumbit="sendRequest()">
 			<div style="display:inline-block; position:relative;">
 				<input type="search" id="searchInput" value="屌" maxlength="1" store="" />
 				<div style="display:inline-block;position: absolute; top:0; left:0;">
@@ -348,7 +385,7 @@
 					<div id="searchByPronuncation">
 
 						<div class="searchContainerDiv">
-							<select id="selectConsonant" class="searchType">
+							<select id="selectConsonant" class="searchType" onchange="sendRequest()">
 								<option value="-">聲母</option>
 								<option value="">(無)</option>
 								<option value="b">b</option>
@@ -373,7 +410,7 @@
 							</select>
 						</div>
 						<div class="searchContainerDiv verticalLine">
-							<select id="selectVowel" class="searchType">
+							<select id="selectVowel" class="searchType" onchange="sendRequest()">
 								<option value="-">韻母</option>
 								<option value="">(無)</option>
 								<option value="aa">aa</option>
@@ -436,7 +473,7 @@
 							</select>
 						</div>
 						<div class="searchContainerDiv verticalLine">
-							<select id="selectTone" class="searchType">
+							<select id="selectTone" class="searchType" onchange="sendRequest()">
 								<option value="-">聲調</option>
 								<option value="1">1</option>
 								<option value="2">2</option>
