@@ -12,3 +12,5 @@
 
 
  
+![N|Solid](https://rawgit.com/wilsonlmh/betterLexiCan/readme/1.png)
+![N|Solid](https://rawgit.com/wilsonlmh/betterLexiCan/readme/2.png)
