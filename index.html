@@ -459,7 +459,7 @@
 				searchTypeToggle();
 			}
 			searchInput.value = char;
-			ajax("https://crossorigin.me/http://humanum.arts.cuhk.edu.hk/Lexis/lexi-can/search.php?q=" + encodeBig5URIComponent(char), requestCallbackCharacter);
+			ajax("http://humanum.arts.cuhk.edu.hk/Lexis/lexi-can/search.php?q=" + encodeBig5URIComponent(char), requestCallbackCharacter);
 		}
 
 		function search(e) {
@@ -471,7 +471,7 @@
 			if (!JSON.parse(divSearchType.getAttribute("isSearchByCharacter"))) {
 				//拼音
 				if (selectConsonant.options[selectConsonant.selectedIndex].value != "-" || selectVowel.options[selectVowel.selectedIndex].value != "-") {
-					ajax("https://crossorigin.me/http://humanum.arts.cuhk.edu.hk/Lexis/lexi-can/pho-rel.php?s1=" + selectConsonant.options[selectConsonant.selectedIndex].value + "&s2=" + selectVowel.options[selectVowel.selectedIndex].value + "&s3=" + selectTone.options[selectTone.selectedIndex].value, requestCallbackPronuncation);
+					ajax("http://humanum.arts.cuhk.edu.hk/Lexis/lexi-can/pho-rel.php?s1=" + selectConsonant.options[selectConsonant.selectedIndex].value + "&s2=" + selectVowel.options[selectVowel.selectedIndex].value + "&s3=" + selectTone.options[selectTone.selectedIndex].value, requestCallbackPronuncation);
 				}
 				document.getElementById("info").style.display = "none";
 			} else {
